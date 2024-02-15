@@ -64,9 +64,6 @@ class MyHandler(SimpleHTTPRequestHandler):
 
             return
 
-
-
-
         else: 
             super().do_GET()
 
@@ -109,16 +106,15 @@ class MyHandler(SimpleHTTPRequestHandler):
 
                 else:
                     with open('dados_login.txt', 'a') as file:
-                            login = form_data.get('email',[''])[0]
-                            senha = form_data.get('senha',[''])[0]
                             file.write(f"{login};{senha}\n")
 
-                    with open(os.path.join(os.getcwd(),'dados_ok.html'),'r',encoding='utf-8')as login_file:
-                        content = login_file.read()
-                    self.send_response(200)
-                    self.send_header('Content-type','text/html;charset=utf-8')
+                    # with open(os.path.join(os.getcwd(),'dados_ok.html'),'r',encoding='utf-8')as login_file:
+                    #     content = login_file.read()
+                    self.send_response(302)
+                    self.send_header('Location',f'/cadastro?login={login}&senha={senha}')
                     self.end_headers()
-                    self.wfile.write(content.encode('utf-8'))
+
+                    return
         else: 
             super(MyHandler,self).do_POST()
 

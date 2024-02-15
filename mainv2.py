@@ -1,7 +1,7 @@
 from http.server import SimpleHTTPRequestHandler
 import socketserver
 import os 
-from urllib.parse import parse_qs
+from urllib.parse import parse_qs, urlparse
 
 class MyHandler(SimpleHTTPRequestHandler):
     def list_directory(self, path):
@@ -64,19 +64,28 @@ class MyHandler(SimpleHTTPRequestHandler):
 
             return
 
-
-
-
         else: 
             super().do_GET()
 
     def usuario_existente(self,login,senha):
         with open('dados_login.txt','r') as file:
             for line in file:
-                stored_login, stored_senha = line.strip().split(';')
-                if login == stored_login:
-                    return senha == stored_senha
-        return False
+                if line.strip():
+                    stored_login, stored_senha,stored_nome = line.strip().split(';')
+                    if login == stored_login:
+                        print('cheguei aqui significando que localizei o login informado')
+                        print('senha' + senha)
+                        print('senha armazenada' + senha)
+                        return senha == stored_senha
+            return False
+        
+    def remover_ultima_linha(self,arquivo):
+        print('vou excluir a ultima linha')
+        with open(arquivo, 'r', encoding='utf-8') as file:
+            lines = file.readlines()
+        with open(arquivo, 'w', encoding='utf-8') as file:
+            lines = file.writelines(lines[:-1])
+            
 
     def do_POST(self):
         if self.path =='/enviar_login':
@@ -119,6 +128,41 @@ class MyHandler(SimpleHTTPRequestHandler):
                     self.send_header('Content-type','text/html;charset=utf-8')
                     self.end_headers()
                     self.wfile.write(content.encode('utf-8'))
+
+        elif self.path.startswith('/confirmar_cadastro'):
+            content_lenght = int(self.headers['Content-Length'])
+            body = self.rfile.read(content_lenght).decode('utf-8')
+            form_data = parse_qs(body, keep_blank_values=True)
+
+            login = form_data.get('email',[''])[0]
+            senha = form_data.get('senha',[''])[0]
+            nome = form_data.get('nome',[''])[0]
+
+            print('nome' + nome)
+
+            if self.usuario_existente(login, senha):
+                with open('dados_login.txt', 'r', encoding='utf-8') as file:
+                    lines = file.readlines()
+
+                with open('dados_login.txt', 'w', encoding='utf-8') as file:
+                    for line in lines: 
+                        stored_login, stored_senha, stored_name = line.strip().split(';')
+                        if login == stored_login and senha == stored_senha:
+                            line = f'{login};{senha};{nome}\n'
+                        file.write(line)
+
+                self.send_response(302)
+                self.send_header('Content-type', 'text/html;charset=utf-8')
+                self.end_headers()
+                self.wfile.write('Registro recebido com sucesso'.encode('utf-8'))
+
+            else: 
+                self.remover_ultima_linha('dados_login.txt')
+                self.send_response(302)
+                self.send_header('Content-type', 'text/html;charset=utf-8')
+                self.end_headers()
+                self.wfile.write('A senha não confere, retome o procedimento'.encode('utf-8'))
+        
         else: 
             super(MyHandler,self).do_POST()
 
