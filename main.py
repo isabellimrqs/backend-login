@@ -1,7 +1,7 @@
 from http.server import SimpleHTTPRequestHandler
 import socketserver
 import os 
-from urllib.parse import parse_qs
+from urllib.parse import parse_qs, urlparse
 
 class MyHandler(SimpleHTTPRequestHandler):
     def list_directory(self, path):
@@ -63,6 +63,7 @@ class MyHandler(SimpleHTTPRequestHandler):
             self.wfile.write(content.encode('utf-8'))
 
             return
+        
 
         else: 
             super().do_GET()

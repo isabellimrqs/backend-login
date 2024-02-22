@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Atividades</title>
+</head>
+<body>
+
+<style>
+body {
+ background-color: #d9d9d9;
+ justify-content: center;
+ display: flex;
+}
+
+.container{
+ border: 1px solid #d9d9d9;
+ width:500px;
+ align-items: center;
+ display: flex;
+ flex-direction: column;
+ background-color: white;
+ box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+
+#descricao, #codigo {
+ border: 1px solid #d9d9d9; 
+ height: 30px;
+ width: 200px;
+ text-align: center;
+ margin-bottom: 10px;
+}
+
+h1,label,button {
+ font-family: "DM Sans",sans-serif;
+ text-align: center;
+}
+
+button {
+ background-color: blue;
+ color: white;
+ outline: none;
+ border: blue;
+ margin: 10px 60px; 
+ width: 85px;
+ height: 30px;
+}
+
+button:hover{
+ color: white;
+}
+</style>
+
+<div class="container">
+    <div class="error-message">
+        
+    </div>
+    <h1>Registro </h1>
+    
+    <form action="/cad_atividades" method="post">
+        <label for="codigo">Código:</label>
+        <br>
+        <input type="text" id="codigo" name="codigo" placeholder="Código" required>
+        <br>
+        
+        <label for="descricao">Descrição:</label>
+        <br>
+        <input type="text" id="descricao"  name="descricao" placeholder="Descrição" required> 
+        <br>
+        
+        <button type="submit">Entrar</button>
+    </form>
+</div>
+
+</body>
+</html>
