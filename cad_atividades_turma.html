@@ -23,7 +23,7 @@ body {
  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 }
 
-#descricao, #codigo {
+#codigo_atv_turma, #codigo_turma {
  border: 1px solid #d9d9d9; 
  height: 30px;
  width: 200px;
@@ -55,20 +55,20 @@ button:hover{
     <div class="error-message">
         
     </div>
-    <h1>Registro </h1>
+    <h1>Atividades da Turma </h1>
     
-    <form action="/cad_atividades" method="post">
-        <label for="codigo">Código:</label>
+    <form action="/cadastro_atividade_turma" method="post">
+        <label for="codigo_turma">Turma:</label>
         <br>
-        <input type="text" id="codigo" name="codigo" placeholder="Código" required>
-        <br>
-        
-        <label for="descricao">Descrição:</label>
-        <br>
-        <input type="text" id="descricao"  name="descricao" placeholder="Descrição" required> 
+        <input type="text" id="codigo_turma" name="codigo_turma" placeholder="Turma" required>
         <br>
         
-        <button type="submit">Entrar</button>
+        <label for="codigo_atv_turma">Atividade:</label>
+        <br>
+        <input type="text" id="codigo_atv_turma"  name="codigo_atv_turma" placeholder="Atividade" required> 
+        <br>
+        
+        <button type="submit">Ok</button>
     </form>
 </div>
 
