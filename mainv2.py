@@ -189,10 +189,12 @@ class MyHandler(SimpleHTTPRequestHandler):
                             line = f'{login};{senha_hash};{nome}\n'
                         file.write(line)
 
+                with open(os.path.join(os.getcwd(),'dados_ok.html'),'r',encoding='utf-8')as login_file:
+                    content = login_file.read()
                 self.send_response(302)
-                self.send_header('Content-type', 'text/html;charset=utf-8')
+                self.send_header('Content-type','text/html')
                 self.end_headers()
-                self.wfile.write('Registro recebido com sucesso'.encode('utf-8'))
+                self.wfile.write(content.encode('utf-8'))
 
             else: 
                 self.remover_ultima_linha('dados_login.txt')
